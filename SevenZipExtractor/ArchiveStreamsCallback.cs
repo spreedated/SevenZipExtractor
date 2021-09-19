@@ -7,7 +7,7 @@ namespace SevenZipExtractor
     {
         private readonly IList<Stream> streams;
 
-        public ArchiveStreamsCallback(IList<Stream> streams) 
+        public ArchiveStreamsCallback(IList<Stream> streams)
         {
             this.streams = streams;
         }
@@ -34,7 +34,7 @@ namespace SevenZipExtractor
                 return 0;
             }
 
-            Stream stream = this.streams[(int) index];
+            Stream stream = this.streams[(int)index];
 
             if (stream == null)
             {

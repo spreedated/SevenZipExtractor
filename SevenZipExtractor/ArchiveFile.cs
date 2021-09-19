@@ -363,11 +363,6 @@ namespace SevenZipExtractor
             return false;
         }
 
-        ~ArchiveFile()
-        {
-            this.Dispose(false);
-        }
-
         protected void Dispose(bool disposing)
         {
             if (this.archiveStream != null)
