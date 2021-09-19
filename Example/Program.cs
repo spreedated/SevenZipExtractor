@@ -1,21 +1,20 @@
-﻿
-using System;
+﻿using System;
 using System.IO;
 using SevenZipExtractor;
 
-namespace ConsoleApplication86
+namespace Example
 {
-    class Program
+    internal class Program
     {
         static void Main(string[] args)
         {
-            using (ArchiveFile archiveFile = new ArchiveFile(@"Archive.arj"))
+            using (ArchiveFile archiveFile = new(@"Archive.arj"))
             {
                 // extract all
                 archiveFile.Extract("Output");
             }
 
-            using (ArchiveFile archiveFile = new ArchiveFile("archive.arj"))
+            using (ArchiveFile archiveFile = new("archive.arj"))
             {
                 foreach (Entry entry in archiveFile.Entries)
                 {
@@ -25,7 +24,7 @@ namespace ConsoleApplication86
                     entry.Extract(entry.FileName);
 
                     // extract to stream
-                    MemoryStream memoryStream = new MemoryStream();
+                    MemoryStream memoryStream = new();
                     entry.Extract(memoryStream);
                 }
             }
