@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace SevenZipExtractor.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class TestArj : TestBase
     {
-        [TestMethod]
+        [Test]
         public void Text_UnboxAndCast_OK()
         {
             IList<TestFileEntry> testEntries = new List<TestFileEntry>()

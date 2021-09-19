@@ -1,17 +1,17 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 
 namespace SevenZipExtractor.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class TestZip : TestBase
     {
-        [TestMethod]
+        [Test]
         public void TestGuessAndExtractToStream_OK()
         {
             this.TestExtractToStream(Resources.TestFiles.zip, this.TestEntriesWithFolder);
         }
 
-        [TestMethod]
+        [Test]
         public void TestKnownFormatAndExtractToStream_OK()
         {
             this.TestExtractToStream(Resources.TestFiles.zip, this.TestEntriesWithFolder, SevenZipFormat.Zip);

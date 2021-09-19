@@ -1,22 +1,22 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 
 namespace SevenZipExtractor.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class TestLzh : TestBase
     {
         // LZH does not provide folder as entry, only files
 
-        [TestMethod]
+        [Test]
         public void TestGuessAndExtractToStream_Fails()
         {
-            Assert.ThrowsException<SevenZipException>(() =>
+            Assert.Throws<SevenZipException>(() =>
             {
                 this.TestExtractToStream(Resources.TestFiles.lzh, this.TestEntriesWithoutFolder);
             });
         }
 
-        [TestMethod]
+        [Test]
         public void TestKnownFormatAndExtractToStream_OK()
         {
             this.TestExtractToStream(Resources.TestFiles.lzh, this.TestEntriesWithoutFolder, SevenZipFormat.Lzh);
