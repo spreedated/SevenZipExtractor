@@ -1,16 +1,34 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
-    <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
-    <PackageReference Include="coverlet.collector" Version="3.1.0">
+    <None Remove="Resources\7z.7z" />
+    <None Remove="Resources\ansimate-arj.arj" />
+    <None Remove="Resources\lzh.lzh" />
+    <None Remove="Resources\rar.rar" />
+    <None Remove="Resources\SevenZip.7z" />
+    <None Remove="Resources\zip.zip" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\7z.7z" />
+    <EmbeddedResource Include="Resources\ansimate-arj.arj" />
+    <EmbeddedResource Include="Resources\lzh.lzh" />
+    <EmbeddedResource Include="Resources\rar.rar" />
+    <EmbeddedResource Include="Resources\SevenZip.7z" />
+    <EmbeddedResource Include="Resources\zip.zip" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.3.1" />
+    <PackageReference Include="coverlet.collector" Version="3.2.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
