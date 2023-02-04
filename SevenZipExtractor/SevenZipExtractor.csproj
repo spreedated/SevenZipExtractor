@@ -4,8 +4,8 @@
     <AssemblyTitle>SevenZipWrapper</AssemblyTitle>
     <Product>SevenZipWrapper</Product>
     <Description>C# wrapper for 7z.dll (included)</Description>
-    <Copyright>2021 Markus Karl Wackermann</Copyright>
-    <Version>1.1.0</Version>
+    <Copyright>Copyright 2022</Copyright>
+    <Version>1.0.16</Version>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <Authors>Eugene Sichkar, Alexander Selishchev, @matortheeternal, Hajin Jang, Artem Tarasov, Jose Pineiro, Raphael Stoeckli, Wojciech Nagórski</Authors>
     <PackageId>SevenZipExtractor</PackageId>
