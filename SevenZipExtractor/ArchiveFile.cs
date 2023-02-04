@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace SevenZipExtractor
 {
@@ -370,15 +371,21 @@ namespace SevenZipExtractor
                 this.archiveStream.Dispose();
             }
 
-            if (this.archive != null)
+            if (this.archive != null && OperatingSystem.IsWindows())
             {
-                Marshal.ReleaseComObject(this.archive);
+                this.ReleaseComObject();
             }
 
             if (this.sevenZipHandle != null)
             {
                 this.sevenZipHandle.Dispose();
             }
+        }
+
+        [SupportedOSPlatform("windows")]
+        private void ReleaseComObject()
+        {
+            Marshal.ReleaseComObject(this.archive);
         }
 
         public void Dispose()

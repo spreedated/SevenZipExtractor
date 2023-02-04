@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace SevenZipExtractor
 {
@@ -82,13 +83,24 @@ namespace SevenZipExtractor
 
                     try
                     {
-                        return Marshal.GetObjectForNativeVariant(PropHandle.AddrOfPinnedObject());
+                        if (OperatingSystem.IsWindows())
+                        {
+                            return GetObjectForNativeVariant(PropHandle.AddrOfPinnedObject());
+                        }
+
+                        return null;
                     }
                     finally
                     {
                         PropHandle.Free();
                     }
             }
+        }
+
+        [SupportedOSPlatform("windows")]
+        private static object GetObjectForNativeVariant(IntPtr propHandle)
+        {
+            return Marshal.GetObjectForNativeVariant(propHandle);
         }
     }
 
