@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <AssemblyTitle>SevenZipWrapper</AssemblyTitle>
     <Product>SevenZipWrapper</Product>
     <Description>C# wrapper for 7z.dll (included)</Description>
     <Copyright>Copyright 2023</Copyright>
-    <Version>1.0.17</Version>
+    <Version>1.0.18</Version>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <Authors>Eugene Sichkar, Alexander Selishchev, @matortheeternal, Hajin Jang, Artem Tarasov, Jose Pineiro, Raphael Stoeckli, Wojciech Nagórski</Authors>
     <PackageId>SevenZipExtractor</PackageId>
