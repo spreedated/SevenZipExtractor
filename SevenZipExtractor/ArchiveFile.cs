@@ -7,6 +7,9 @@ using System.Runtime.Versioning;
 
 namespace SevenZipExtractor
 {
+    /// <summary>
+    /// Archive file
+    /// </summary>
     public class ArchiveFile : IDisposable
     {
         private SevenZipHandle sevenZipHandle;
@@ -17,6 +20,12 @@ namespace SevenZipExtractor
         private string libraryFilePath;
         private bool disposedValue;
 
+        /// <summary>
+        /// ArchiveFile constructor
+        /// </summary>
+        /// <param name="archiveFilePath"></param>
+        /// <param name="libraryFilePath"></param>
+        /// <exception cref="SevenZipException"></exception>
         public ArchiveFile(string archiveFilePath, string libraryFilePath = null)
         {
             this.libraryFilePath = libraryFilePath;
@@ -47,6 +56,13 @@ namespace SevenZipExtractor
             this.archiveStream = new InStreamWrapper(File.OpenRead(archiveFilePath));
         }
 
+        /// <summary>
+        /// ArchiveFile constructor
+        /// </summary>
+        /// <param name="archiveStream"></param>
+        /// <param name="format"></param>
+        /// <param name="libraryFilePath"></param>
+        /// <exception cref="SevenZipException"></exception>
         public ArchiveFile(Stream archiveStream, SevenZipFormat? format = null, string libraryFilePath = null)
         {
             this.libraryFilePath = libraryFilePath;
@@ -74,6 +90,11 @@ namespace SevenZipExtractor
             this.archiveStream = new InStreamWrapper(archiveStream);
         }
 
+        /// <summary>
+        /// Extracts the archive to the specified folder
+        /// </summary>
+        /// <param name="outputFolder"></param>
+        /// <param name="overwrite"></param>
         public void Extract(string outputFolder, bool overwrite = false)
         {
             this.Extract(entry =>
@@ -94,6 +115,10 @@ namespace SevenZipExtractor
             });
         }
 
+        /// <summary>
+        /// Extracts the archive to the specified folder
+        /// </summary>
+        /// <param name="getOutputPath"></param>
         public void Extract(Func<Entry, string> getOutputPath)
         {
             IList<Stream> fileStreams = [];
@@ -138,6 +163,9 @@ namespace SevenZipExtractor
             }
         }
 
+        /// <summary>
+        /// Entries in the archive
+        /// </summary>
         public IList<Entry> Entries
         {
             get
@@ -365,6 +393,10 @@ namespace SevenZipExtractor
         }
 
         #region Dispose
+        /// <summary>
+        /// Dispose the object
+        /// </summary>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -385,6 +417,9 @@ namespace SevenZipExtractor
             }
         }
 
+        /// <summary>
+        /// Dispose the object
+        /// </summary>
         public void Dispose()
         {
             this.Dispose(disposing: true);

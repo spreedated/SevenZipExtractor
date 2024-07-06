@@ -3,6 +3,9 @@ using System.IO;
 
 namespace SevenZipExtractor
 {
+    /// <summary>
+    /// Represents a single entry in an archive
+    /// </summary>
     public class Entry
     {
         private readonly IInArchive archive;
@@ -86,6 +89,12 @@ namespace SevenZipExtractor
         /// </summary>
         public bool IsSplitAfter { get; set; }
 
+        /// <summary>
+        /// Extracts the entry to the specified file
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="preserveTimestamp"></param>
+
         public void Extract(string fileName, bool preserveTimestamp = true)
         {
             if (this.IsFolder)
@@ -111,6 +120,11 @@ namespace SevenZipExtractor
                 File.SetLastWriteTime(fileName, this.LastWriteTime);
             }
         }
+
+        /// <summary>
+        /// Extracts the entry to the specified stream
+        /// </summary>
+        /// <param name="stream"></param>
         public void Extract(Stream stream)
         {
             this.archive.Extract(new[] { this.index }, 1, 0, new ArchiveStreamCallback(this.index, stream));
