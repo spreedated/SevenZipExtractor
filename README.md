@@ -1,10 +1,8 @@
 # SevenZipExtractor
 C# wrapper for 7z.dll (x86 and x64 included) 
-- .NET Standard 2.0
-- .NET Framework 4.5
+- .NET 8.0
 
 [![NuGet](https://img.shields.io/nuget/dt/SevenZipExtractor.svg?style=flat-square)](https://www.nuget.org/packages/SevenZipExtractor)
-[![NuGet](https://img.shields.io/nuget/v/SevenZipExtractor.svg?style=flat-square)](https://www.nuget.org/packages/SevenZipExtractor)
 
 Every single star makes maintainer happy! ⭐
 
@@ -130,6 +128,10 @@ using (ArchiveFile archiveFile = new ArchiveFile(response.GetResponseStream())
 
 
 ## Changelog
+1.10
+- 7z binaries updated to 24.7.0.0
+- Removed against .NET 8.0
+
 1.0.17 / 2022.04.08
 - #54 4Gb+ archives fixed! 🎉 (Thanks [Pyroluk](https://github.com/Pyroluk))
 
