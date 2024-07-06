@@ -1,8 +1,8 @@
 ﻿#pragma warning disable IDE0060
 
+using SevenZipExtractor;
 using System;
 using System.IO;
-using SevenZipExtractor;
 
 namespace Example
 {
