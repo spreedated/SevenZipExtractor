@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices.Marshalling;
 
 namespace SevenZipExtractor
 {
-    internal class ArchiveStreamsCallback : IArchiveExtractCallback
+    [GeneratedComClass]
+    internal partial class ArchiveStreamsCallback : IArchiveExtractCallback
     {
         private readonly IList<Stream> streams;
 

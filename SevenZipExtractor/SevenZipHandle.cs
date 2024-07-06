@@ -58,9 +58,8 @@ namespace SevenZipExtractor
             IntPtr procAddress = Kernel32Dll.GetProcAddress(this.sevenZipSafeHandle, "CreateObject");
             CreateObjectDelegate createObject = (CreateObjectDelegate)Marshal.GetDelegateForFunctionPointer(procAddress, typeof(CreateObjectDelegate));
 
-            object result;
             Guid interfaceId = typeof(IInArchive).GUID;
-            createObject(ref classId, ref interfaceId, out result);
+            createObject(ref classId, ref interfaceId, out object result);
 
             return result as IInArchive;
         }

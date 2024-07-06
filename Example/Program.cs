@@ -1,10 +1,12 @@
-﻿using System;
+﻿#pragma warning disable IDE0060
+
+using System;
 using System.IO;
 using SevenZipExtractor;
 
 namespace Example
 {
-    internal class Program
+    internal static class Program
     {
         static void Main(string[] args)
         {

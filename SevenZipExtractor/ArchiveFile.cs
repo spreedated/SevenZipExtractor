@@ -15,6 +15,7 @@ namespace SevenZipExtractor
         private IList<Entry> entries;
 
         private string libraryFilePath;
+        private bool disposedValue;
 
         public ArchiveFile(string archiveFilePath, string libraryFilePath = null)
         {
@@ -27,10 +28,9 @@ namespace SevenZipExtractor
                 throw new SevenZipException("Archive file not found");
             }
 
-            SevenZipFormat format;
             string extension = Path.GetExtension(archiveFilePath);
 
-            if (this.GuessFormatFromExtension(extension, out format))
+            if (this.GuessFormatFromExtension(extension, out SevenZipFormat format))
             {
                 // great
             }
@@ -60,9 +60,7 @@ namespace SevenZipExtractor
 
             if (format == null)
             {
-                SevenZipFormat guessedFormat;
-
-                if (this.GuessFormatFromSignature(archiveStream, out guessedFormat))
+                if (this.GuessFormatFromSignature(archiveStream, out SevenZipFormat guessedFormat))
                 {
                     format = guessedFormat;
                 }
@@ -98,11 +96,11 @@ namespace SevenZipExtractor
 
         public void Extract(Func<Entry, string> getOutputPath)
         {
-            IList<Stream> fileStreams = new List<Stream>();
+            IList<Stream> fileStreams = [];
 
             try
             {
-                foreach (Entry entry in Entries)
+                foreach (Entry entry in this.Entries)
                 {
                     string outputPath = getOutputPath(entry);
 
@@ -135,10 +133,7 @@ namespace SevenZipExtractor
             {
                 foreach (Stream stream in fileStreams)
                 {
-                    if (stream != null)
-                    {
-                        stream.Dispose();
-                    }
+                    stream?.Dispose();
                 }
             }
         }
@@ -162,7 +157,7 @@ namespace SevenZipExtractor
 
                 uint itemsCount = this.archive.GetNumberOfItems();
 
-                this.entries = new List<Entry>();
+                this.entries = [];
 
                 for (uint fileIndex = 0; fileIndex < itemsCount; fileIndex++)
                 {
@@ -215,27 +210,27 @@ namespace SevenZipExtractor
             }
             catch (InvalidCastException)
             {
-                return default(T);
+                return default;
             }
         }
 
         private T GetProperty<T>(uint fileIndex, ItemPropId name)
         {
-            PropVariant propVariant = new PropVariant();
+            PropVariant propVariant = new();
             this.archive.GetProperty(fileIndex, name, ref propVariant);
             object value = propVariant.GetObject();
 
             if (propVariant.VarType == VarEnum.VT_EMPTY)
             {
                 propVariant.Clear();
-                return default(T);
+                return default;
             }
 
             propVariant.Clear();
 
             if (value == null)
             {
-                return default(T);
+                return default;
             }
 
             Type type = typeof(T);
@@ -317,22 +312,22 @@ namespace SevenZipExtractor
                 return false;
             }
 
-            if (!Formats.ExtensionFormatMapping.ContainsKey(fileExtension))
+            if (!Formats.ExtensionFormatMapping.TryGetValue(fileExtension, out SevenZipFormat value))
             {
                 format = SevenZipFormat.Undefined;
                 return false;
             }
 
-            format = Formats.ExtensionFormatMapping[fileExtension];
+            format = value;
             return true;
         }
 
 
         private bool GuessFormatFromSignature(string filePath, out SevenZipFormat format)
         {
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (FileStream fileStream = new(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                return GuessFormatFromSignature(fileStream, out format);
+                return this.GuessFormatFromSignature(fileStream, out format);
             }
         }
 
@@ -351,35 +346,16 @@ namespace SevenZipExtractor
                 return false;
             }
 
-            foreach (KeyValuePair<SevenZipFormat, byte[]> pair in Formats.FileSignatures)
+            IEnumerable<KeyValuePair<SevenZipFormat, byte[]>> pair = Formats.FileSignatures.Where(pair => archiveFileSignature.Take(pair.Value.Length).SequenceEqual(pair.Value));
+
+            if (pair.Any())
             {
-                if (archiveFileSignature.Take(pair.Value.Length).SequenceEqual(pair.Value))
-                {
-                    format = pair.Key;
-                    return true;
-                }
+                format = pair.First().Key;
+                return true;
             }
 
             format = SevenZipFormat.Undefined;
             return false;
-        }
-
-        protected void Dispose(bool disposing)
-        {
-            if (this.archiveStream != null)
-            {
-                this.archiveStream.Dispose();
-            }
-
-            if (this.archive != null && OperatingSystem.IsWindows())
-            {
-                this.ReleaseComObject();
-            }
-
-            if (this.sevenZipHandle != null)
-            {
-                this.sevenZipHandle.Dispose();
-            }
         }
 
         [SupportedOSPlatform("windows")]
@@ -388,10 +364,32 @@ namespace SevenZipExtractor
             Marshal.ReleaseComObject(this.archive);
         }
 
+        #region Dispose
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    this.archiveStream?.Dispose();
+
+                    if (this.archive != null && OperatingSystem.IsWindows())
+                    {
+                        this.ReleaseComObject();
+                    }
+
+                    this.sevenZipHandle?.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
         public void Dispose()
         {
-            this.Dispose(true);
+            this.Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
+        #endregion
     }
 }
